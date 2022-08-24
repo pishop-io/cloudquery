@@ -1,20 +1,23 @@
-FROM node:8
+FROM node:16-bullseye
+WORKDIR /app
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Install Python
+RUN apt update -y || : && apt install python -y
 
-# Install app dependencies
-COPY package.json /usr/src/app/
-RUN npm install
-RUN npm audit fix
+# Copy and download dependencies
+COPY package*.json /app/
+RUN npm install --force
+RUN npm install -g npm-run-all
 
+# Install Google Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \ 
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+RUN apt-get update && apt-get -y install google-chrome-stable
 
-# Bundle app source
-COPY . /usr/src/app
-# install dependencies
-RUN npm i
+# Bundle app
+COPY . .
 
+EXPOSE 1234
 EXPOSE 3000
-CMD ["npm", "start"]
-
+EXPOSE 33333
+CMD [ "run-p", "sb", "sf" ]
