@@ -4,7 +4,6 @@
 // https://github.com/cyrus-and/chrome-remote-interface/wiki/Wait-for-a-specific-element
 // TODO: improve code: same code appearing twice!!
 
-const launchChrome = require('@serverless-chrome/lambda');
 const CDP = require('chrome-remote-interface');
 const express = require('express');
 const path = require('path');
@@ -54,10 +53,6 @@ app.get('/query', async (req, res) => {
 
   const selectorArr = selectors.split(',');
 
-  await launchChrome({
-    flags: ['--window-size=1280,1696', '--hide-scrollbars'],
-  });
-
   let client;
   try {
     // connect to endpoint
@@ -71,7 +66,7 @@ app.get('/query', async (req, res) => {
     await Network.setCacheDisabled({ cacheDisabled: true });
     await Page.navigate({ url });
 
-    const requestCounterMinWaitMs = 1500;
+    const requestCounterMinWaitMs = 1500;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
     const requestCounterMaxWaitMs = 20000;
 
     let numSent = 0;
@@ -168,10 +163,6 @@ app.get('/fullHtml', async (req, res) => {
     res.status(400).send('must provide a url');
     throw new Error('throwing as url not valid');
   }
-
-  await launchChrome({
-    flags: ['--window-size=1280,1696', '--hide-scrollbars'],
-  });
 
   let client;
   try {
