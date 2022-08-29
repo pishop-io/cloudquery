@@ -56,7 +56,7 @@ app.get('/query', async (req, res) => {
   let client;
   try {
     // connect to endpoint
-    client = await CDP();
+    client = await CDP({ host: "172.17.0.3" });
     // extract domains
     const { Network, Page, Runtime } = client;
 
@@ -66,7 +66,7 @@ app.get('/query', async (req, res) => {
     await Network.setCacheDisabled({ cacheDisabled: true });
     await Page.navigate({ url });
 
-    const requestCounterMinWaitMs = 1500;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
+    const requestCounterMinWaitMs = 1500;
     const requestCounterMaxWaitMs = 20000;
 
     let numSent = 0;
@@ -167,7 +167,7 @@ app.get('/fullHtml', async (req, res) => {
   let client;
   try {
     // connect to endpoint
-    client = await CDP();
+    client = await CDP({ host: "172.17.0.3" });
     // extract domains
     const { Network, Page, Runtime } = client;
 
