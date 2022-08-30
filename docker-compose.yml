@@ -1,0 +1,16 @@
+version: '3'
+services:
+  cloudquery:
+    build:
+      context: .
+      dockerfile: CloudQuery.Dockerfile
+    ports:
+      - 1234:1234 
+      - 3000:3000
+    restart: always
+
+  headless-chromium:
+    image: adieuadieu/headless-chromium-for-aws-lambda:latest
+    ports:
+      - "9222:9222"
+    restart: always

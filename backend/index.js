@@ -56,7 +56,7 @@ app.get('/query', async (req, res) => {
   let client;
   try {
     // connect to endpoint
-    client = await CDP({ host: "172.17.0.3" });
+    client = await CDP({ host: "headless-chromium" });
     // extract domains
     const { Network, Page, Runtime } = client;
 
@@ -167,7 +167,7 @@ app.get('/fullHtml', async (req, res) => {
   let client;
   try {
     // connect to endpoint
-    client = await CDP({ host: "172.17.0.3" });
+    client = await CDP({ host: "headless-chromium" });
     // extract domains
     const { Network, Page, Runtime } = client;
 
