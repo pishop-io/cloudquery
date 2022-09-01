@@ -18,7 +18,7 @@
     "chrome-remote-interface": "^0.26.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "express-rate-limit": "^3.4.0"
+    "express-rate-limit": "^6.5.1"
   },
   "devDependencies": {
     "@medv/finder": "^1.1.1",
