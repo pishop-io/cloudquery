@@ -56,7 +56,7 @@ app.get('/query', async (req, res) => {
   let client;
   try {
     // connect to endpoint
-    client = await CDP({ host: "headless-chromium" });
+    client = await CDP({ host: 'headless-chromium' });
     // extract domains
     const { Network, Page, Runtime } = client;
 
@@ -95,14 +95,16 @@ app.get('/query', async (req, res) => {
     });
 
     // TODO: let user choose if it is a page sending ajax?
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       Page.loadEventFired(() => {
         const ajaxDoneInterval = setInterval(() => {
           if (numSent === numReceived && minWaitTimeExceeded()) {
             clearInterval(ajaxDoneInterval);
             resolve();
           } else if (maxWaitTimeExceeded()) {
-            reject(new Error('ajax timeout after 20 seconds'));
+            console.log(`Timeout! Ignoring ${numSent - numReceived} ajax requests!`);
+            clearInterval(ajaxDoneInterval);
+            resolve();
           } else if (numSent === numReceived) {
             console.log(`No pending ajax requests, but still waiting for minWaitTime of ${requestCounterMinWaitMs}. Current wait: ${new Date().getTime() - startTime}`);
           } else {
@@ -167,7 +169,7 @@ app.get('/fullHtml', async (req, res) => {
   let client;
   try {
     // connect to endpoint
-    client = await CDP({ host: "headless-chromium" });
+    client = await CDP({ host: 'headless-chromium' });
     // extract domains
     const { Network, Page, Runtime } = client;
 
@@ -206,14 +208,16 @@ app.get('/fullHtml', async (req, res) => {
     });
 
     // TODO: let user choose if it is a page sending ajax?
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       Page.loadEventFired(() => {
         const ajaxDoneInterval = setInterval(() => {
           if (numSent === numReceived && minWaitTimeExceeded()) {
             clearInterval(ajaxDoneInterval);
             resolve();
           } else if (maxWaitTimeExceeded()) {
-            reject(new Error('ajax timeout after 20 seconds'));
+            console.log(`Timeout! Ignoring ${numSent - numReceived} ajax requests!`);
+            clearInterval(ajaxDoneInterval);
+            resolve();
           } else if (numSent === numReceived) {
             console.log(`No pending ajax requests, but still waiting for minWaitTime of ${requestCounterMinWaitMs}. Current wait: ${new Date().getTime() - startTime}`);
           } else {
@@ -246,7 +250,7 @@ app.get('/fullHtml', async (req, res) => {
   }
 });
 
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 })
 
